@@ -122,7 +122,7 @@ return (
 );
 ```
 
-💡 **If departments don’t load, check if the backend is running (`npm start` in `backend`).**
+**If departments don’t load, check if the backend is running (`npm start` in `backend`).**
 
 ---
 
@@ -162,18 +162,12 @@ return (
 ---
 
 ## **5. Summary**
-✅ **Backend**: Runs at `http://localhost:4000/graphql`  
-✅ **Frontend**: Runs at `http://localhost:3000`  
-✅ **Department Selector**: Allows filtering students by department  
-✅ **Apollo Client**: Connects frontend to backend  
+ **Backend**: Runs at `http://localhost:4000/graphql`  
+**Frontend**: Runs at `http://localhost:3000`  
+**Department Selector**: Allows filtering students by department  
+**Apollo Client**: Connects frontend to backend  
 
 ---
 
-This guide should help you **set up and troubleshoot** the project locally. 🚀
-
-
-npm run dev    # For backend (if applicable)
-```
-
-This concludes the setup and function summary for the Student Information System.
+This guide should help you **set up and troubleshoot** the project locally.
 
