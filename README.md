@@ -122,11 +122,96 @@ return (
 );
 ```
 
-**If departments don’t load, check if the backend is running (`npm start` in `backend`).**
+💡 **If departments don’t load, check if the backend is running (`npm start` in `backend`).**
 
 ---
 
-## **4. Troubleshooting**
+## **4. Student List Component (`StudentList.js`)**
+- Fetches and displays students who belong to a selected department.
+- Uses the `studentsByDepartment` GraphQL query to retrieve student data dynamically.
+
+**GraphQL Query for Fetching Students by Department:**
+```javascript
+const GET_STUDENTS = gql`
+query GetStudents($departmentId: ID!) {
+  studentsByDepartment(departmentId: $departmentId) {
+    id
+    first_name
+    last_name
+    student_id
+    address
+  }
+}
+`;
+```
+
+**Implementation Example:**
+```javascript
+const { loading, error, data } = useQuery(GET_STUDENTS, {
+  variables: { departmentId },
+  skip: !departmentId,
+});
+
+if (!departmentId) return <p>Please select a department to view students.</p>;
+if (loading) return <p>Loading students...</p>;
+if (error) return <p>Error loading students.</p>;
+
+return (
+  <table border="1">
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Student ID</th>
+        <th>Address</th>
+      </tr>
+    </thead>
+    <tbody>
+      {data.studentsByDepartment.map((student) => (
+        <tr key={student.id}>
+          <td>{student.first_name}</td>
+          <td>{student.last_name}</td>
+          <td>{student.student_id}</td>
+          <td>{student.address}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+);
+```
+
+---
+
+## **5. Adding Students (`AddStudentForm.js`)**
+- Allows users to add new students by filling in details and selecting a department.
+- Uses the `addStudent` GraphQL mutation.
+
+**GraphQL Mutation for Adding a Student:**
+```javascript
+const ADD_STUDENT = gql`
+mutation AddStudent($firstName: String!, $lastName: String!, $studentId: ID!, $address: String!, $departmentId: ID!) {
+  addStudent(firstName: $firstName, lastName: $lastName, studentId: $studentId, address: $address, departmentId: $departmentId) {
+    id
+    first_name
+    last_name
+    student_id
+  }
+}
+`;
+```
+
+**Implementation Example:**
+```javascript
+const [addStudent] = useMutation(ADD_STUDENT);
+const handleSubmit = (e) => {
+  e.preventDefault();
+  addStudent({ variables: form });
+};
+```
+
+---
+
+## **6. Troubleshooting**
 ### **Common Issues and Fixes**
 #### **Backend Issues**
 - **Backend not starting?**  
@@ -152,22 +237,9 @@ return (
   uri: "http://localhost:4000/graphql"
   ```
 
-- **React App Fails to Compile?**  
-  ```powershell
-  rm -rf node_modules package-lock.json
-  npm install
-  npm start
-  ```
-
 ---
 
-## **5. Summary**
- **Backend**: Runs at `http://localhost:4000/graphql`  
-**Frontend**: Runs at `http://localhost:3000`  
-**Department Selector**: Allows filtering students by department  
-**Apollo Client**: Connects frontend to backend  
+This guide should help you **set up and troubleshoot** the project locally. 
 
----
 
-This guide should help you **set up and troubleshoot** the project locally.
 
